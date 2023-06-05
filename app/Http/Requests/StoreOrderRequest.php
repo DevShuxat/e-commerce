@@ -13,7 +13,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "delivery_method_id" => 'required|numeric',
+            'payment_type_id' => 'required|numeric',
+            'products' => 'required',
+            'products.*.product_id' => 'required|numeric',
+            'products.*.stock_id' => 'nullable|numeric',
+            'products.*.quantity' => 'required|numeric',
+            'comment' => 'nullable|max:500'
         ];
     }
 }

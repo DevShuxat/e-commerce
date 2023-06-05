@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\v1\Controller;
 use App\Models\DeliveryMethod;
 use App\Http\Requests\StoreDeliveryMethodsRequest;
 use App\Http\Requests\UpdateDeliveryMethodsRequest;
 
 class DeliveryMethodsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        return  DeliveryMethod::all();
     }
 
     /**

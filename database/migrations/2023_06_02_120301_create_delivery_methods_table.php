@@ -16,7 +16,7 @@ class CreateDeliveryMethodsTable extends Migration
         Schema::create('delivery_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('estimated_time');
+            $table->text('estimated_time');
             $table->unsignedBigInteger('sum');
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\v1\Controller;
 use App\Models\PaymentType;
 use App\Http\Requests\StorePaymentTypeRequest;
 use App\Http\Requests\UpdatePaymentTypeRequest;
@@ -11,11 +12,11 @@ class PaymentTypeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return PaymentType[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        //
+        return PaymentType::all();
     }
 
     /**

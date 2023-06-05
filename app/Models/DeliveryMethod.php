@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class DeliveryMethod extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
 
     protected $fillable = [
@@ -15,7 +16,7 @@ class DeliveryMethod extends Model
         'estimated_time',
         'sum'];
 
-
+    public array $translatable = ['name', 'estimated_time'];
 
     public function Order() {
         return $this->hasMany(Order::class);
