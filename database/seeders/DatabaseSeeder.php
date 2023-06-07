@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
            ProductSeeder::class,
            DeliveryMethodsSeeder::class,
            PaymentTypeSeeder::class,
+           UserAddressSeeder::class,
 
        ]);
     }

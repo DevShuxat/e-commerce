@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\v1\Controller;
-use App\Models\UserAddress;
 use App\Http\Requests\StoreUserAddressRequest;
 use App\Http\Requests\UpdateUserAddressRequest;
-use Ramsey\Collection\Collection;
+use App\Models\UserAddress;
 
 class UserAddressController extends Controller
 {
 
     public function index()
     {
-        return  auth()->user()->addresses;
+        return auth()->user()->addresses;
     }
-
-
 
 
     public function store(StoreUserAddressRequest $request)

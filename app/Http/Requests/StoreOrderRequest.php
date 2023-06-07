@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property mixed address_id
+ */
 class StoreOrderRequest extends FormRequest
 {
     /**
@@ -24,13 +27,14 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
+            'comment' => 'string|max:500',
             "delivery_method_id" => 'required|numeric',
             'payment_type_id' => 'required|numeric',
             'products' => 'required',
+            'address'=>'string',
             'products.*.product_id' => 'required|numeric',
             'products.*.stock_id' => 'nullable|numeric',
             'products.*.quantity' => 'required|numeric',
-            'comment' => 'nullable|max:500'
         ];
     }
 }

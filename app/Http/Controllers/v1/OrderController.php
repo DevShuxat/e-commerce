@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\UserAddress;
 
 class OrderController extends Controller
 {
@@ -21,8 +23,10 @@ class OrderController extends Controller
         return auth()->user()->orders;
     }
 
-
-
+    public function show(Order $order)
+    {
+        return new OrderResource($order);
+    }
 
 
     public function store(StoreOrderRequest $request)
@@ -30,21 +34,20 @@ class OrderController extends Controller
 
         $sum = 100;
         $products = Product::query()->limit(2)->get();
+        $address = UserAddress::find($request->address_id);
+//        dd($address);
 //        dd($products);
         auth()->user()->orders()->create([
             'comment' => $request->comment,
             'delivery_method_id' => $request->delivery_method_id,
             'payment_type_id' => $request->payment_type_id,
-            'address_id' => $request->address_id,
+            'address' => $address,
             'sum' => $sum,
             'products' => $products,
         ]);
 
-        return 'succes';
+        return 'success';
     }
-
-
-
 
     public function update(UpdateOrderRequest $request, Order $order)
     {

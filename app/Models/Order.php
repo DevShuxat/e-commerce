@@ -16,16 +16,38 @@ class Order extends Model
         'delivery_method_id',
         'payment_type_id',
         'sum',
-        'products'
+        'products',
+        'address',
+    ];
+
+    protected $casts = [
+        'products' => 'array',
+        'address' => 'array',
     ];
 
 
-    public  function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function address()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(PaymentType::class);
+    }
+
+    public function delivery_method()
+    {
+        return $this->belongsTo(DeliveryMethod::class);
     }
 }
