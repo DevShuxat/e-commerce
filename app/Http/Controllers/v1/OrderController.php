@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderResourceCollection;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserAddress;
@@ -31,10 +32,11 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        $strOreder = [
 
-        $sum = 100;
-        $products = Product::query()->limit(2)->get();
-        $address = UserAddress::find($request->address_id);
+        $sum = 100,
+        $products = Product::query()->limit(2)->get(),
+        $address = UserAddress::find($request->address_id),
 //        dd($address);
 //        dd($products);
         auth()->user()->orders()->create([
@@ -44,9 +46,10 @@ class OrderController extends Controller
             'address' => $address,
             'sum' => $sum,
             'products' => $products,
-        ]);
+        ])
+        ];
 
-        return 'success';
+        return $this->respondWithResourceCollection(new OrderResourceCollection($strOreder), 'Physical all enrolls');
     }
 
     public function update(UpdateOrderRequest $request, Order $order)

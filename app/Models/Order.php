@@ -41,12 +41,12 @@ class Order extends Model
         return $this->hasMany(UserAddress::class);
     }
 
-    public function payment()
+    public function PaymentType()
     {
         return $this->belongsTo(PaymentType::class);
     }
 
-    public function delivery_method()
+    public function DeliveryMethod()
     {
         return $this->belongsTo(DeliveryMethod::class);
     }
