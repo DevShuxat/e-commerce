@@ -55,5 +55,6 @@ class FavoriteController extends Controller
 
 
         return response(['success' => false, 'message' => 'Favorites does not exist']);
+
     }
 }

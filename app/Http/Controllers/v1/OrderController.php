@@ -29,25 +29,26 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-            $sum = 100;
-            $products = Product::query()->limit(2)->get();
-            $address = UserAddress::find($request->address_id);
-            $payment = PaymentType::find($request->payment_type_id);
+        $sum = 100;
+        $products = Product::query()->limit(2)->get();
+        $address = UserAddress::find($request->address_id);
+        $payment = PaymentType::find($request->payment_type_id);
 
 
         auth()->user()->orders()->create([
-                'comment' => $request->comment,
-                'delivery_method_id' => $request->delivery_method_id,
-                'payment_type_id' => $payment,
-                'address' => $address,
-                'sum' => $sum,
-                'products' => $products,
-            ]);
+            'comment' => $request->comment,
+            'delivery_method_id' => $request->delivery_method_id,
+            'payment_type_id' => $payment,
+            'address' => $address,
+            'sum' => $sum,
+            'products' => $products,
+        ]);
 
         return (['message' => 'Create order is success']);
     }
 
-    public function update(UpdateOrderRequest $request, $id) {
+    public function update(UpdateOrderRequest $request, $id)
+    {
         // Get the order from the database
         $order = Order::find($id);
 
