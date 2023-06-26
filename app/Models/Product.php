@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
 
     protected $fillable = [
@@ -29,7 +30,7 @@ class Product extends Model
 
     public function stocks()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasOne(Stock::class)->latestOfMany();
     }
 
     public function users()
