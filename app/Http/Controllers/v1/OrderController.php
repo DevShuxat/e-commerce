@@ -6,10 +6,10 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use App\Models\PaymentType;
+//use App\Models\PaymentType;
 use App\Models\Product;
 use App\Models\UserAddress;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 
 class   OrderController extends Controller
@@ -26,22 +26,30 @@ class   OrderController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
 
         $sum = 100;
-        $products = Product::query()->limit(2)->get();
+//        $products = Product::query()->limit(2)->get();
         $address = UserAddress::find($request->address_id);
-        $payment = PaymentType::find($request->payment_type_id);
+//        dd($request['products']);
+
+
+        foreach ($request['products'] as $product)
+        {
+            $produc = Product::with('stocks')->findOrFail('product_id');
+
+            dd($produc->stocks()->find($product['stock_id']));
+        }
 
 
         auth()->user()->orders()->create([
             'comment' => $request->comment,
             'delivery_method_id' => $request->delivery_method_id,
-            'payment_type_id' => $payment,
+//            'payment_type_id' => $payment,
             'address' => $address,
             'sum' => $sum,
-            'products' => $products,
+//            'products' => $products,
         ]);
 
         return (['message' => 'Create order is success']);

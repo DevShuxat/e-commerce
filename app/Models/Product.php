@@ -4,14 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Laravel\Scout\Searchable;
+//use Illuminate\Database\Eloquent\Relations\BelongsTo;
+//use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+//use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 class Product extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, HasTranslations, SoftDeletes;
 
-
+    public array $translatable = ["name", "description"];
     protected $fillable = [
         "category_id",
         "name",
@@ -19,18 +22,20 @@ class Product extends Model
         "description",
     ];
 
-    protected $casts= [
-      'name' => 'array'
-    ];
-
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    public function withStock($stockId)
+    {
+        $this->stocks = [$this->stocks()->findOrFail($stockId)];
+        return $this;
+    }
+
     public function stocks()
     {
-        return $this->hasOne(Stock::class)->latestOfMany();
+        return $this->hasMany(Stock::class);
     }
 
     public function users()
