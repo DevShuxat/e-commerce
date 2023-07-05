@@ -69,6 +69,7 @@ class   OrderController extends Controller
                 'products' => $products,
             ]);
 
+
             if ($order) {
                 foreach ($products as $product) {
                     $stock = Stock::find($product['inventory'][0]['id']);
