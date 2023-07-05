@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\v1\Controller;
 use App\Models\DeliveryMethod;
 use App\Http\Requests\StoreDeliveryMethodsRequest;
 use App\Http\Requests\UpdateDeliveryMethodsRequest;
+use Illuminate\Http\Response;
 
 class DeliveryMethodsController extends Controller
 {
 
     public function index()
     {
-        return  DeliveryMethod::all();
+        $delivery = DeliveryMethod::all();
+
+        return $this->success('this is all delivery methods', [$delivery]);
     }
-
-
 
 
     public function store(StoreDeliveryMethodsRequest $request)
@@ -32,8 +33,8 @@ class DeliveryMethodsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DeliveryMethod  $deliveryMethods
-     * @return \Illuminate\Http\Response
+     * @param DeliveryMethod $deliveryMethods
+     * @return Response
      */
     public function destroy(DeliveryMethod $deliveryMethods)
     {

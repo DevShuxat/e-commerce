@@ -12,7 +12,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        return ProductResource::collection(Product::cursorPaginate(25));
+        $products =  Product::all();
+        return $this->success('All products', [$products]);
 
     }
 
@@ -25,7 +26,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        return Product::with('stocks')->find($id);
+        $productById =  Product::with('stocks')->find($id);
+        return $this->success('this product by id' ,[$productById]);
     }
 
 

@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Category::all();
+       $category =  Category::all();
+       return $this->success('All category', [$category]);
     }
 
 
@@ -26,7 +27,8 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return $category;
+        $categoryById =  $category;
+        return $this->success('THis is category by id', [$categoryById]);
     }
 
 

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\v1\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Response;
+
 
 class AuthController extends Controller
 {
@@ -50,16 +53,16 @@ class AuthController extends Controller
         return response()->json(['access_token' => $token]);
     }
 
-    /**
-     * Handle a logout request from the application.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
+    }
+
+    public function user(Request $request)
+    {
+        return new UserResource($request->user());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\v1\Controller;
 use App\Http\Requests\StoreUserAddressRequest;
@@ -12,14 +12,15 @@ class UserAddressController extends Controller
 
     public function index()
     {
-        return auth()->user()->addresses;
+       $addresses =  auth()->user()->addresses;
+       return $this->success('this is  user addresses', [$addresses]);
     }
 
 
     public function store(StoreUserAddressRequest $request)
     {
-        auth()->user()->addresses()->create($request->toArray());
-        return true;
+        $createAddress = auth()->user()->addresses()->create($request->toArray());
+        return $this->success('Create address is successfullly', [$createAddress]);
     }
 
 

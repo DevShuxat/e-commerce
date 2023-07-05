@@ -19,22 +19,18 @@ class StoreOrderRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+
+    public function rules(): array
     {
         return [
-            'comment' => 'string|max:500',
             "delivery_method_id" => 'required|numeric',
             'payment_type_id' => 'required|numeric',
-            'products' => 'required',
             'address'=>'string',
+            'products' => 'required',
             'products.*.product_id' => 'required|numeric',
             'products.*.stock_id' => 'nullable|numeric',
             'products.*.quantity' => 'required|numeric',
+            'comment' => 'string|max:500',
         ];
     }
 }

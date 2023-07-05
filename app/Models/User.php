@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static create(array $array)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -68,5 +71,10 @@ class User extends Authenticatable
     {
         return  $this->favorites()->where('product_id', $favorite_id)->exists();
 
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class);
     }
 }

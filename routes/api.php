@@ -1,16 +1,21 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DeliveryMethodsController;
-use App\Http\Controllers\PaymentTypeController;
-use App\Http\Controllers\UserAddressController;
-use App\Http\Controllers\UserCardController;
+use App\Http\Controllers\v1\DeliveryMethodsController;
+use App\Http\Controllers\v1\PaymentTypeController;
+use App\Http\Controllers\v1\ProductReviewController;
 use App\Http\Controllers\v1\CategoryController;
 use App\Http\Controllers\v1\CategoryProductController;
 use App\Http\Controllers\v1\FavoriteController;
 use App\Http\Controllers\v1\OrderController;
 use App\Http\Controllers\v1\ProductController;
+use App\Http\Controllers\v1\ReviewController;
+use App\Http\Controllers\v1\StatusController;
+use App\Http\Controllers\v1\StatusOrderController;
+use App\Http\Controllers\v1\UserAddressController;
+use App\Http\Controllers\v1\UserCardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 
 
 
@@ -31,10 +36,14 @@ Route::prefix('v1')->group(function () {
             'favorites' => FavoriteController::class,
             'categories.products' => CategoryProductController::class,
             'order' => OrderController::class,
+            'statuses.order' => StatusOrderController::class,
             'delivery-methods' => DeliveryMethodsController::class,
             'payments-types' => PaymentTypeController::class,
             'user-addresses'  => UserAddressController::class,
             'user-cards'=> UserCardController::class,
+            'status' => StatusController::class,
+            'reviews' => ReviewController::class,
+            'products.reviews' => ProductReviewController::class,
         ));
 
     });

@@ -5,10 +5,14 @@ namespace App\Http\Controllers\v1;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Order;
+
 //use App\Models\PaymentType;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\UserAddress;
+
 //use Illuminate\Http\Request;
 
 
@@ -28,32 +32,64 @@ class   OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-
-        $sum = 100;
-//        $products = Product::query()->limit(2)->get();
+        $sum = 0;
+        $products = [];
+        $notFoundProducts = [];
         $address = UserAddress::find($request->address_id);
-//        dd($request['products']);
 
+        foreach ($request['products'] as $requestProduct) {
+            $product = Product::with('stocks')->findOrFail($requestProduct['product_id']);
+            $product->quantity = $requestProduct['quantity'];
 
-        foreach ($request['products'] as $product)
-        {
-            $produc = Product::with('stocks')->findOrFail('product_id');
+            if (
+                $product->stocks()->find($requestProduct['stock_id']) &&
+                $product->stocks()->find($requestProduct['stock_id'])->quantity >= $requestProduct['quantity']
+            ) {
+                $productWithStock = $product->withStock($requestProduct['stock_id']);
+                $productResource = new ProductResource($productWithStock);
 
-            dd($produc->stocks()->find($product['stock_id']));
+                $sum += $productResource['price'];
+                $productArray = $productResource->resolve();
+                $productArray['order_quantity'] = $requestProduct['quantity']; // Add 'order_quantity' key
+                $products[] = $productArray;
+            } else {
+                $requestProduct['we_have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
+                $notFoundProducts[] = $requestProduct;
+            }
         }
 
+        if ($notFoundProducts === [] && $products !== [] && $sum !== 0) {
+            $order = auth()->user()->orders()->create([
+                'comment' => $request->comment,
+                'delivery_method_id' => $request->delivery_method_id,
+                'payment_type_id' => $request->payment_type_id,
+                'sum' => $sum,
+                'status_id' => in_array($request['payment_type_id'], [1, 2]) ? 1 : 3,
+                'address' => $address,
+                'products' => $products,
+            ]);
 
-        auth()->user()->orders()->create([
-            'comment' => $request->comment,
-            'delivery_method_id' => $request->delivery_method_id,
-//            'payment_type_id' => $payment,
-            'address' => $address,
-            'sum' => $sum,
-//            'products' => $products,
-        ]);
+            if ($order) {
+                foreach ($products as $product) {
+                    $stock = Stock::find($product['inventory'][0]['id']);
+                    $stock->quantity -= $product['order_quantity'];
+                    $stock->save();
+                }
+            }
 
-        return (['message' => 'Create order is success']);
+            return $this->success('order created', $order);
+        } else {
+            return $this->error(
+                'some products not found or do not have in inventory',
+                ['not_found_products' => $notFoundProducts]
+            );
+        }
+
+        // return 'something went wrong, cant create order';
     }
+
+
+
 
     public function update(UpdateOrderRequest $request, $id)
     {

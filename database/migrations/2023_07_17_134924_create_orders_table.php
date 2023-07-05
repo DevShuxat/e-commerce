@@ -19,10 +19,12 @@ class CreateOrdersTable extends Migration
             $table->text('comment')->nullable();
             $table->foreignId('delivery_method_id');
             $table->foreignId('payment_type_id');
+            $table->foreignId('status_id')->default(1)->constrained();
             $table->unsignedBigInteger('sum');
             $table->text('address')->nullable();
             $table->json('products');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

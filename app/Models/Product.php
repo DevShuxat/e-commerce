@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
+
 class Product extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes;
@@ -41,5 +42,14 @@ class Product extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

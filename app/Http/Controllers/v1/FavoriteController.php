@@ -38,9 +38,9 @@ class FavoriteController extends Controller
 
     public function store(Request $request)
     {
-        auth()->user()->favorites()->attach($request->product_id);
+        $favoriteStore =  auth()->user()->favorites()->attach($request->product_id);
 
-        return response(['message' => "Add succesfully"]);
+        return $this->success('Favorite is add', [$favoriteStore]);
     }
 
 
@@ -50,11 +50,11 @@ class FavoriteController extends Controller
             auth()->user()->favorites()->detach($favorite_id);
 
 
-            return response(['success' => true]);
+            return $this->success('destroy is successfully');
         }
 
 
-        return response(['success' => false, 'message' => 'Favorites does not exist']);
-
+//        return response(['success' => false, 'message' => 'Favorites does not exist']);
+        return $this->error('Favorites does not exist');
     }
 }

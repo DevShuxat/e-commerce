@@ -23,10 +23,11 @@ class DatabaseSeeder extends Seeder
            UserSeeder::class,
            AttributeSeeder::class,
            ValueSeeder::class,
-           ProductSeeder::class,
            DeliveryMethodsSeeder::class,
            PaymentTypeSeeder::class,
            UserAddressSeeder::class,
+           StatusSeeder::class,
+           ProductTableSeeder::class,
 
        ]);
     }
