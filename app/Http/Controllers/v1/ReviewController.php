@@ -13,7 +13,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        return $this->response(auth()->user()->reviews()->paginate(10));
     }
 
     /**

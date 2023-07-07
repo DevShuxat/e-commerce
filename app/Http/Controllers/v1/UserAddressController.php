@@ -13,14 +13,14 @@ class UserAddressController extends Controller
     public function index()
     {
        $addresses =  auth()->user()->addresses;
-       return $this->success('this is  user addresses', [$addresses]);
+       return $this->success('this is  user addresses',$addresses);
     }
 
 
     public function store(StoreUserAddressRequest $request)
     {
         $createAddress = auth()->user()->addresses()->create($request->toArray());
-        return $this->success('Create address is successfullly', [$createAddress]);
+        return $this->success('Create address is successfullly',$createAddress);
     }
 
 

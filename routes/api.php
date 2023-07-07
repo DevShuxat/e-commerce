@@ -10,10 +10,12 @@ use App\Http\Controllers\v1\FavoriteController;
 use App\Http\Controllers\v1\OrderController;
 use App\Http\Controllers\v1\ProductController;
 use App\Http\Controllers\v1\ReviewController;
+use App\Http\Controllers\v1\SettingController;
 use App\Http\Controllers\v1\StatusController;
 use App\Http\Controllers\v1\StatusOrderController;
 use App\Http\Controllers\v1\UserAddressController;
 use App\Http\Controllers\v1\UserCardController;
+use App\Http\Controllers\v1\UserSettingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 
@@ -44,6 +46,8 @@ Route::prefix('v1')->group(function () {
             'status' => StatusController::class,
             'reviews' => ReviewController::class,
             'products.reviews' => ProductReviewController::class,
+            'setting' => SettingController::class,
+            'user-settings' => UserSettingController::class,
         ));
 
     });

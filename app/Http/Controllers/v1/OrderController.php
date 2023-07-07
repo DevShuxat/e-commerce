@@ -7,8 +7,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Order;
-
-//use App\Models\PaymentType;
+use App\Models\PaymentType;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\UserAddress;
@@ -21,12 +20,19 @@ class   OrderController extends Controller
 
     public function index()
     {
+        if (request()->has('status_id')){
+            return $this->response(OrderResource::collection(
+                auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)
+            ));
+        }
+
+
         return auth()->user()->orders;
     }
 
     public function show(Order $order)
     {
-        return new OrderResource($order);
+        return $this->response(new OrderResource($order));
     }
 
 
@@ -54,6 +60,7 @@ class   OrderController extends Controller
                 $products[] = $productArray;
             } else {
                 $requestProduct['we_have'] = $product->stocks()->find($requestProduct['stock_id'])->quantity;
+//                dd($requestProduct);
                 $notFoundProducts[] = $requestProduct;
             }
         }
@@ -86,7 +93,6 @@ class   OrderController extends Controller
             );
         }
 
-        // return 'something went wrong, cant create order';
     }
 
 

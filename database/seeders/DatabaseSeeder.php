@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
            UserAddressSeeder::class,
            StatusSeeder::class,
            ProductTableSeeder::class,
+           SettingSeeder::class,
 
        ]);
     }

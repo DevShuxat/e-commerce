@@ -26,4 +26,10 @@ class Value extends Model
     public function value() {
        return $this->hasMany(Attribute::class);
     }
+
+    public function valueable()
+    {
+        return $this->morphTo();
+
+    }
 }

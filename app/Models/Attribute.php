@@ -18,8 +18,8 @@ class Attribute extends Model
 
 
 
-    public function attribute()
+    public function values()
     {
-        return $this->belongsTo(Value::class);
+        return $this->morphMany(Value::class, 'valueable');
     }
 }

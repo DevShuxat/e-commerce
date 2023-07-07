@@ -21,7 +21,7 @@ class StatusOrderController extends Controller
 
 //        dd($status, $request);
         $order = Order::findOrFail($request['order_id']);
-
+//        dd($order);
         $order->update(['status_id' => $status->id]);
 
         return $this->success('success change order', $order);

@@ -12,6 +12,9 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Response;
 
 
+/**
+ * @method response(UserResource $param)
+ */
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -63,6 +66,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return new UserResource($request->user());
+        return $this->success('success', new UserResource(auth()->user()));
     }
 }
