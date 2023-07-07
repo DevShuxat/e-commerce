@@ -18,12 +18,12 @@ This project is an Online Shop built using the PHP Laravel framework. It provide
 
 1. Clone the repository to your local machine.
 ```shell
-git clone https://github.com/your-username/online-shop.git
+git clone https://github.com/your-username/e-commerce_app.git
 ```
 
 2. Navigate to the project directory.
 ```shell
-cd online-shop
+cd e-commerce_app
 ```
 
 3. Install the project dependencies using Composer.
