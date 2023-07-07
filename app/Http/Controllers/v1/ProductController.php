@@ -12,9 +12,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products =  Product::all();
+        $products = Product::all();
         return $this->success('All products', [$products]);
-
     }
 
 
@@ -26,10 +25,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $productById =  Product::with('stocks')->find($id);
-        return $this->success('this product by id' ,[$productById]);
+        $productById = Product::with('stocks')->find($id);
+        return $this->success('this product by id', [$productById]);
     }
-
 
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -41,5 +39,15 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function related(Product $product)
+    {
+        return $this->response(
+            ProductResource::collection(Product::query()
+                ->where('category_id', $product->category_id)
+                ->limit(20)
+                ->get())
+        );
     }
 }

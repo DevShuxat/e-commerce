@@ -13,15 +13,9 @@ class SettingController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
-            $settings = $user->setting;
-//            dd($settings);
-            if ($settings) {
-                return $this->response(SettingResourse::collection($settings));
-            }
-
-        return response()->json(['message' => 'Settings not found'], 404);
+        return $this->response(SettingResourse::collection(Setting::all()));
     }
+
     public function create()
     {
         //

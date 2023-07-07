@@ -31,6 +31,11 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::get('user', [AuthController::class, 'user']);
 
+
+    Route::get('products/{product}/related', [ProductController::class, 'related']);
+
+
+
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::apiResources(array(
             'categories' => CategoryController::class,

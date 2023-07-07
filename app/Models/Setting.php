@@ -19,7 +19,7 @@ class Setting extends Model
     protected  $guarded = [];
 
 
-    public array $translatable = ['name', 'values'];
+    public array $translatable = ['name'];
 
 
 

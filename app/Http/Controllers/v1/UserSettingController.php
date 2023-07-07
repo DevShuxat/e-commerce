@@ -11,18 +11,22 @@ use App\Http\Requests\UpdateUserSettingRequest;
 
 class UserSettingController extends Controller
 {
+//    public function index()
+//    {
+//        $user = auth()->user();
+//        if ($user) {
+//            $settings = $user->settings;
+//            if ($settings) {
+//                return $this->response(UserSettingResource::collection($settings));
+//            }
+//        }
+//
+//        // Return response if user or settings are null
+//        return response()->json(['message' => 'User settings not found'], 404);
+//    }
     public function index()
     {
-        $user = auth()->user();
-        if ($user) {
-            $settings = $user->settings;
-            if ($settings) {
-                return $this->response(UserSettingResource::collection($settings));
-            }
-        }
-
-        // Return response if user or settings are null
-        return response()->json(['message' => 'User settings not found'], 404);
+        return $this->response(UserSettingResource::collection(auth()->user()->settings));
     }
 
 
@@ -33,7 +37,7 @@ class UserSettingController extends Controller
     }
 
 
-    public function store( StoreUserSettingRequest $request)
+    public function store(StoreUserSettingRequest $request)
     {
         if (auth()->user()->setting()->find($request->setting_id)->exists()){
             return $this->error('setting already exists');

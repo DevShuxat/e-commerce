@@ -22,6 +22,7 @@ class SettingSeeder extends Seeder
             ],
             'type' => SettingType::SELECT,
         ]);
+
         $setting->values()->create([
             'name' => [
                 'uz' => 'Ozbekcha',

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
            StatusSeeder::class,
            ProductTableSeeder::class,
            SettingSeeder::class,
+           UserSettingSeeder::class,
 
        ]);
     }

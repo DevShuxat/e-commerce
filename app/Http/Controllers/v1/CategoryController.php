@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\v1\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -27,8 +28,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        $categoryById =  $category;
-        return $this->success('THis is category by id', $categoryById);
+        return $this->response(new CategoryResource($category));
     }
 
 
