@@ -6,6 +6,7 @@ use Spatie\Enum\Enum;
 
 class SettingType extends Enum
 {
+
     const SELECT = 'select';
     const SWITCH = 'switch';
 
