@@ -9,6 +9,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\LazyCollection;
+use Ramsey\Collection\Collection;
 
 class StatsController extends Controller
 {
@@ -81,6 +82,37 @@ class StatsController extends Controller
         return $this->response($response);
     }
 
+    public function ordersCountByDay(Request $request)
+    {
 
+        $from = Carbon::now()->subMonth();
+        $to = Carbon::now();
+
+        if ($request->has(['from', 'to'])) {
+            $from = $request->from;
+            $to = $request->to;
+        }
+        $days = CarbonPeriod::create($from, $to);
+        $response = new \Illuminate\Support\Collection();
+        LazyCollection::make($days->toArray())->each(function ($day, $days) use ($from, $to, $response) {
+
+            $allOrders = Order::query()
+                ->whereBetween('created_at', [$days, Carbon::parse()->addRealDay()])
+                ->whereRelation('status', 'code', 'C')
+                ->count();
+            $orderSum = Order::query()
+                ->whereBetween('created_at', [$days, Carbon::parse()->addRealDay()])
+                ->whereRelation('status', 'code', 'C')
+                ->sum('sum');
+//            dd($orderSum);
+
+            $response[] = [
+                'date' => $day->format('Y-m-d'),
+                'orders_count' => $allOrders,
+                'orders_sum' => $orderSum,
+            ];
+        });
+        return $this->response($response);
+    }
 
 }
