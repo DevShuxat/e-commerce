@@ -6,28 +6,35 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Services\OrderService;
 use App\Models\Order;
-use App\Models\PaymentType;
+
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\UserAddress;
+use Illuminate\Http\Request;
 
-//use Illuminate\Http\Request;
 
-
+/**
+ * @property OrderService OrderService
+ */
 class   OrderController extends Controller
 {
 
-    public function index()
+    public function __construct(OrderService $service)
     {
-        if (request()->has('status_id')){
-            return $this->response(OrderResource::collection(
-                auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)
-            ));
-        }
+        $this->OrderService = $service;
+    }
 
-
-        return auth()->user()->orders;
+    public function index(Request $request)
+    {
+//        if (request()->has('status_id')){
+//            return $this->response(OrderResource::collection(
+//                auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)
+//            ));
+//        }
+        return $this->success("these all orders", $this->OrderService->index($request->all()));
+//        return auth()->user()->orders;
     }
 
     public function show(Order $order)
@@ -84,44 +91,40 @@ class   OrderController extends Controller
                     $stock->save();
                 }
             }
-
-            return $this->success('order created', $order);
+            return $this->success('order created', [$order]);
         } else {
             return $this->error(
-                'some products not found or do not have in inventory',
+                'some products not found or does not have in inventory',
                 ['not_found_products' => $notFoundProducts]
             );
         }
-
     }
-
-
 
 
     public function update(UpdateOrderRequest $request, $id)
     {
-        // Get the order from the database
-        $order = Order::find($id);
-
-        // Update the order in the database
-        $order->delivery_method_id = $request->input('delivery_method_id');
-        $order->payment_type_id = $request->input('payment_type_id');
-        $order->address = $request->input('address');
-        $order->sum = $request->input('sum');
-        $order->save();
-
-        // Update the order items in the database
-        foreach ($request->input('products') as $product) {
-            $item = $order->items()->where('product_id', $product['id'])->first();
-            if ($item) {
-                $item->quantity = $product['quantity'];
-                $item->price = $product['price'];
-                $item->save();
-            }
-        }
-
-        // Return the updated order
-        return $order;
+//        // Get the order from the database
+//        $order = Order::find($id);
+//
+//        // Update the order in the database
+//        $order->delivery_method_id = $request->input('delivery_method_id');
+//        $order->payment_type_id = $request->input('payment_type_id');
+//        $order->address = $request->input('address');
+//        $order->sum = $request->input('sum');
+//        $order->save();
+//
+//        // Update the order items in the database
+//        foreach ($request->input('products') as $product) {
+//            $item = $order->items()->where('product_id', $product['id'])->first();
+//            if ($item) {
+//                $item->quantity = $product['quantity'];
+//                $item->price = $product['price'];
+//                $item->save();
+//            }
+//        }
+//
+//        // Return the updated order
+//        return $order;
     }
 
 

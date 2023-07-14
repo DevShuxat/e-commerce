@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -11,32 +10,58 @@ class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $admin = User::updateOrCreate(
-            [
-                'email' => "admin@ecom.uz",
-                'first_name' => "admin",
-                'last_name' => "admin",
-                'phone' => '+99999999',
-                'password' => Hash::make('password'),
-            ]);
-        $admin->roles()->attach(1);
-
-
-        $manager = User::updateOrCreate([
-            'first_name' => "manager",
-            "last_name" => 'manager',
-            'email' => "manager@ecom.uz",
-            "phone" => "+33333333",
-            "password" => Hash::make('manager')
+        $user = User::create([
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@ecom.uz',
+            'phone' => '+99999999',
+            'password' => Hash::make('password'),
         ]);
+        $user->assignRole('admin');
 
-        $manager->roles()->attach(3);
+        $user = User::create([
+            'first_name' => 'Setora',
+            'last_name' => 'Qobilova',
+            'email' => 'setora0877@gmail.com',
+            'phone' => '+9999989998',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole('editor');
 
-        User::factory()->count(10)->hasAttached([Role::find(2)])->create();
+        $user = User::create([
+            'first_name' => 'Sanjar',
+            'last_name' => 'Eshqobilov',
+            'email' => 'sanja@gmail.com',
+            'phone' => '+99999389998',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole('shop-manager');
+
+        $user = User::create([
+            'first_name' => 'Jamila',
+            'last_name' => 'Toirova',
+            'email' => 'jamila@gmail.com',
+            'phone' => '+9567389998',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole('helpdesk-support');
+
+        $user = User::create([
+            'first_name' => 'Fazliddin',
+            'last_name' => 'Qobilov',
+            'email' => 'fazliddin11@gmail.com',
+            'phone' => '+999998999',
+            'password' => Hash::make('password'),
+        ]);
+        $user->assignRole('customer');
+
+
+         $users = User::factory()->count(10)->create();
+        foreach ($users as $user){
+            $user->assignRole('customer');
+        }
     }
 }

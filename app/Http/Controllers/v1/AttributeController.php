@@ -25,12 +25,7 @@ class AttributeController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreAttributeRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(StoreAttributeRequest $request)
     {
         //

@@ -17,20 +17,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-       $this->call([
-           CategorySeeder::class,
-           RoleSeeder::class,
-           UserSeeder::class,
-           AttributeSeeder::class,
-           ValueSeeder::class,
-           DeliveryMethodsSeeder::class,
-           PaymentTypeSeeder::class,
-           UserAddressSeeder::class,
-           StatusSeeder::class,
-           ProductTableSeeder::class,
-           SettingSeeder::class,
-           UserSettingSeeder::class,
+        $this->call([
+            CategorySeeder::class,
+            RolePermissionSeeder::class,
+            UserSeeder::class,
+            AttributeSeeder::class,
+            ValueSeeder::class,
+            DeliveryMethodsSeeder::class,
+            PaymentTypeSeeder::class,
+            UserAddressSeeder::class,
+            StatusSeeder::class,
+            ProductTableSeeder::class,
+            UserSettingSeeder::class,
+            SettingSeeder::class,
 
-       ]);
+        ]);
     }
 }

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
+/**
+ * @method static create(\string[][]$array)
+ */
 class Category extends Model
 {
     use HasFactory, HasTranslations, SoftDeletes;
